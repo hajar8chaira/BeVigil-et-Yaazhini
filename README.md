@@ -119,7 +119,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
   * **3. Failles de Flux Dynamique (SQL Injections locales)**
     Dans les couches Java (`sources/com/...`), j'ai découvert l'emploi de de jonctions dangereuses sur des curseurs SQlite (`rawQuery()`). L'historique transactionnel de la banque est directement modelable et piratable depuis l'interface client (Inputs UI compromettant).
 
-## Observation des perties fournies :
+## Observation  :
 <p align="center"> <img src="images/22.png" width="600"> </p>
 <p align="center"> <img src="images/23.png" width="600"> </p>
 <p align="center"> <img src="images/24.png" width="600"> </p>
