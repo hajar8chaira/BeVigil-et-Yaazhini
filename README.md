@@ -5,7 +5,7 @@
 **Date du rapport :** 22/03/2026  
 **Outils :** BeVigil / BigDvil (Web Scan), Yaazhini (SAST/DAST Tool)
 
-## 📌 Vue d'ensemble (Overview)
+## Vue d'ensemble (Overview)
 Ce projet vise à évaluer la posture de sécurité d'une application Android pédagogique nommée **InsecureBankv2**. 
 
 **Qu'est-ce que InsecureBankv2 ?**
@@ -20,15 +20,25 @@ Pour une analyse exhaustive, deux points de vue sont nécessaires :
 
 ---
 
-## 📑 Sommaire (Table of Contents)
-1. [Chronologie de l'Audit](#-1-chronologie-de-laudit)
-2. [Analysis Results (Yaazhini)](#-2-analysis-results-yaazhini)
-3. [Yaazhini Notes](#-3-yaazhini-notes)
-4. [Observations & Recommendations](#-4-observations--recommendations)
+## Sommaire (Table of Contents)
+1. [Chronologie de l'Audit](#1-chronologie-de-laudit)
+   * [Étape Préliminaire — Définition Officielle du Périmètre](#étape-préliminaire--définition-officielle-du-périmètre-scope)
+   * [Étape 1 — Préparation de Cadrage et Traçabilité de l'Audit](#étape-1--préparation-de-cadrage-et-traçabilité-de-laudit)
+   * [Étape 2 — Validation de l'Intégrité de la Cible](#étape-2--validation-de-lintégrité-de-la-cible-hashing-sha-256)
+   * [Étape 3 — Scan OSINT avec CloudSEK / BeVigil](#étape-3--scan-osint-avec-cloudsek--bevigil)
+   * [Étape 4 — Reconnaissance Externe](#étape-4--reconnaissance-externe-domaines-emails-endpoints-api)
+   * [Étape 5 — Mise en Cale Sèche et Décompilation binaire via Yaazhini](#étape-5--mise-en-cale-sèche-et-décompilation-binaire-via-yaazhini)
+   * [Étape 6 — Investigation des Fichiers Révélés](#étape-6--investigation-des-fichiers-révélés-indices-de-sast-profond)
+   * [Étape 7 — Consolidation, Nettoyage et Élimination des Faux Positifs](#étape-7--consolidation-nettoyage-et-élimination-des-faux-positifs)
+   * [Étape 8 — Classification et Assignation des Risques selon Standards OWASP](#étape-8--classification-et-assignation-des-risques-selon-standards-owasp)
+   * [Étape 9 — Finalisation et Extrants pour les Décideurs](#étape-9--finalisation-et-extrants-pour-les-décideurs)
+2. [Analysis Results (Yaazhini)](#2-analysis-results-yaazhini)
+3. [Yaazhini Notes](#3-yaazhini-notes)
+4. [Observations & Recommendations](#4-observations--recommendations)
 
 ---
 
-## 🚀 1. Chronologie de l'Audit
+## 1. Chronologie de l'Audit
 
 ### Étape Préliminaire — Définition Officielle du Périmètre (Scope)
 **Objectif :** Définir le cadre légal pour se prémunir d'incidents juridiques.
@@ -78,7 +88,7 @@ Pour une analyse exhaustive, deux points de vue sont nécessaires :
   ![Upload BeVigil](assets/bevigil_upload.png)
   ![Analyse BeVigil Terminée](assets/bevigil_done.png)
 
-#### 🔎 Qu'est-ce que le scan BeVigil / BigDvil ?
+#### Qu'est-ce que le scan BeVigil / BigDvil ?
 BeVigil est le premier moteur de recherche de sécurité au monde dédié aux applications mobiles. Lors de la soumission de notre APK, BeVigil a effectué une **analyse statique automatisée dans le Cloud (SAST)**.
 * **Fonctionnement :** L'outil désassemble le code de l'APK, dissèque le Manifest et parcourt les chaînes de caractères pour y trouver des failles connues.
 * **Ce qu'il cible :** Il extrait toutes les métadonnées, recherche des **secrets oubliés** en dur (clés d'API, mots de passe), liste l'exaustivité des **Endpoints réseau et URLs**, et repère les **défauts de configuration** manifestes à l'externe.
@@ -145,7 +155,7 @@ BeVigil est le premier moteur de recherche de sécurité au monde dédié aux ap
 
 ---
 
-## 🛡️ 2. Analysis Results (Yaazhini)
+## 2. Analysis Results (Yaazhini)
 
 Le tableau ci-dessous consolide les vulnérabilités primaires détectées via le module d'analyse *SAST* de Yaazhini sur `InsecureBankv2.apk`.
 
@@ -166,7 +176,7 @@ Le tableau ci-dessous consolide les vulnérabilités primaires détectées via l
 
 ---
 
-## 📝 3. Yaazhini Notes
+## 3. Yaazhini Notes
 
 Cette section agrège notre rapport `yaazhini_notes.md` interne, reprenant 5 découvertes fondamentales :
 
@@ -202,7 +212,7 @@ Cette section agrège notre rapport `yaazhini_notes.md` interne, reprenant 5 dé
 
 ---
 
-## 💡 4. Observations & Recommendations
+## 4. Observations & Recommendations
 
 ### Synthèse (Key Insights)
 L'application *InsecureBankv2* contient de multiples vulnérabilités à risque élevé et modéré. Plusieurs erreurs de configuration graves de sécurité sont présentes (Attribut debuggable activé, Sauvegarde ADB autorisée, et composants exportés sans permission). La cryptographie utilisée est obsolète et dangereuse (MD5, Random values faibles), et d'importantes communications HTTP en clair sont disséminées dans le code.
