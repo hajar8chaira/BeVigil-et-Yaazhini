@@ -88,7 +88,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 <p align="center"> <img src="images/18.png" width="600"> </p>
 <p align="center"> <img src="images/19.png" width="600"> </p>
 
-### Strings,ApkId ... et dautres sauvegarder dans [Exports BigDvil/BeVigil](../01-bevigil/)
+### Strings,ApkId ... et dautres sauvegarder dans 01-bevigil
 
 | Top Vulnérabilité Macro | Sévérité / Risque | Score CVSS | Impact technique identifié |
 |---|---|---|---|
@@ -124,7 +124,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 <p align="center"> <img src="images/15.png" width="800"> </p>
 <p align="center"> <img src="images/16.png" width="800"> </p>
 
- - Fichiers de SAST Décompilés: [Scan local Yaazhini](../02-yaazhini/)
+
 | Faille Majeure Trouvée | Localisation Technique | Ce qu'il se passe concrètement | Pourquoi c'est très grave (Impact Réel) |
 |---|---|---|---|
 | **1. Hardcoded API Key / Credentials** *(Le mot de passe oublié)* | Fichier des textes de l'application : `resources/res/values/strings.xml` | Les développeurs ont écrit un mot de passe ou une clé secrète directement en clair dans le code de l'application (la variable `loginscreen_password`). | N'importe qui téléchargeant l'application peut simplement la décompiler (Reverse Engineering) et y lire ce mot de passe illisible autrement. Cela permet au pirate de s'authentifier immédiatement sur l'application. |
@@ -137,7 +137,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 ## 4. Triage
 
 **Mise en valeur du travail :** Les outils automatisés sont "bruyants" et génèrent énormément d'alertes, y compris des Faux Positifs (ex: fausses alertes sur des dépendances JavaScript légitimes liées aux WebViews). Mon travail d'analyste a consisté à isoler le grain de l'ivraie.
-- Base technique de triage : [Triage (CSV)](../03-triage/triage.csv)
+
 - **Actions :** Collecte consolidée. Croisement des tables issues de BeVigil (fichiers CSV) avec la sortie locale de Yaazhini. Ce traitement manuel est une preuve d'expertise car aucun logiciel ne surpasse la qualification et la décision humaine pour écarter ce qui n’est pas exploitable en conditions réelles.
 
 ## 5. Normalisation
@@ -149,7 +149,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 ## 6. Corrélation OWASP
 
 **Mise en valeur du travail :** Présenter une erreur logicielle ne suffit pas. L'auditeur de sécurité doit lier une erreur à son impact sur le monde réel. L'alignement sur un standard industriel prouve à la direction la dangerosité officielle des découvertes.
-- Tableau de conformité cyber : [Mapping OWASP](../03-triage/owasp_mapping.md)
+
 - **Actions :** Tous les constats majeurs ont été projetés (mapping) dans le référentiel normatif mondial **OWASP MASVS** (Mobile Application Security Verification Standard) dans le livrable `owasp_mapping.md`.
 - **Exemples :** Le fait de lier le "Trafic en clair autorisé" à la règle imposée `MASVS-NETWORK` prouve à l'équipe conformité qu'ils sont hors-la-loi par rapport aux directives internationales sur le chiffrement en transit des données personnelles d'utilisateurs.
 
