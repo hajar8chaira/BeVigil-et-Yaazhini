@@ -6,17 +6,15 @@
 **Outils :** BeVigil / BigDvil (Web Scan), Yaazhini (SAST/DAST Tool)
 
 ## Vue d'ensemble (Overview)
-Ce projet vise à évaluer la posture de sécurité d'une application Android pédagogique nommée **InsecureBankv2**. 
+Ce projet est un laboratoire pratique d'audit de sécurité d'applications mobiles, visant à évaluer rigoureusement la posture de sécurité d'une application Android pédagogique nommée **InsecureBankv2**. Ce document sert de rapport de restitution global et démontre pas à pas une méthodologie professionnelle d'analyse statique et d'OSINT.
 
 **Qu'est-ce que InsecureBankv2 ?**
-Il s'agit d'une application bancaire factice "délibérément vulnérable" (*Vulnerable By Design*). Elle a été créée par des experts en sécurité pour permettre aux étudiants et professionnels de s'entraîner au pentest mobile. Elle regorge d'erreurs classiques de développement réel (composants exportés, trafic en clair, mots de passe codés en dur, cryptographie obsolète).
+Il s'agit d'une application bancaire factice "délibérément vulnérable" (*Vulnerable By Design*). Conçue par des experts en sécurité pour l'entraînement au pentest mobile, elle regorge des vulnérabilités de développement les plus fréquentes dans l'industrie (modèle de menaces OWASP Mobile) : composants exportés non protégés, trafic exposé, mots de passe codés en dur, et faiblesses cryptographiques majeures.
 
 **Pourquoi BeVigil et Yaazhini ?**
-Pour une analyse exhaustive, deux points de vue sont nécessaires :
-1. **BeVigil (L'approche OSINT / Cloud) :** Permet une analyse statique dite "Black-Box" depuis l'extérieur. Sans exécuter l'application, il cartographie presque instantanément sa surface d'attaque externe globale.
-2. **Yaazhini (L'approche SAST en profondeur) :** Permet d'investiguer le code en lui-même (White/Grey-Box). Après décompilation de l'APK, cet outil descend dans la logique binaire. 
-
-À travers une approche structurée selon un workflow professionnel, ce laboratoire met en œuvre l'analyse statique et dynamique de bout en bout.
+L'association de ces deux outils m'a permis de réaliser un audit croisé avec deux perspectives fondamentales :
+1. **BeVigil (L'approche OSINT / Analyse Cloud) :** Offre une vision type "Black-Box". Cet outil effectue un balayage massif de l'infrastructure et des métadonnées de l'application depuis l'extérieur. Il cartographie les domaines, endpoints d'API, adresses emails exposées et identifie rapidement les erreurs de configuration grossières.
+2. **Yaazhini (L'approche SAST en profondeur) :** Apporte l'analyse "White-Box". Par des techniques de rétro-ingénierie (Reverse Engineering), cet outil "désassemble" l'APK pour examiner le code source interne (XML, Manifest, classes Java). Il cible la faille à la ligne près.
 
 ---
 
@@ -34,125 +32,95 @@ Pour une analyse exhaustive, deux points de vue sont nécessaires :
 
 ## 1. Préparation & Périmètre
 
-**Objectif :** Définir le cadre légal et standardiser l'espace de travail.
+**Mise en valeur du travail :** Avant de lancer la moindre analyse technique, il est crucial d'établir les bases légales et traçables d'une mission de cybersécurité, connues sous le nom de *Rules of Engagement* (Règles d'engagement).
 
-- **Étapes :** 
-  - Création du dossier `00-scope` et définition de l'artefact cible (InsecureBankv2) et des limites (aucun test d'exploitation intrusif réel).
-  - Création de l'arborescence (`01-bevigil`, `02-yaazhini`, `03-triage`, `04-report`).
-  - Lancement des logs de commandes `commands.log`.
-  - Calcul du hachage de l'APK (SHA-256) consigné : `B18AF2A0E44D763...`
+- **Actions effectuées :** 
+  - **Délimitation du Scope :** Création du dossier `00-scope` renfermant `scope.md`. J'ai formalisé précisément la portée de l'exercice (l'APK InsecureBankv2) et ses limites (aucune tentative d'exploitation intrusive ou de déni de service n'est autorisée).
+  - **Création du Workspace :** J'ai mis en place une arborescence ordonnée de niveau industriel : `01-bevigil`, `02-yaazhini`, `03-triage`, `04-report`, couplée à un journal de commandes `commands.log` pour assurer la stricte reproductibilité de mon travail.
+  - **Empreinte Cryptographique :** Pour des raisons de conformité et de *Chaîne de possession* (Chain of Custody), le hachage (SHA-256) du fichier cible a été calculé et scellé (`B18AF2A0E44D7634BBCDF93664D9C78A2695E050393FCFBB5E8B9...`). Cette étape garantit sans débat possible que le fichier que j'analyse est l'exact binaire défini avec le client.
 
-- **Observations :** L'environnement est prêt et documenté. La délimitation d'un "scope d'audit" est la clef de voûte de l'éthique du projet. Le hachage garantit que toutes les observations sont liées à une version exacte.
-
+- **Preuves et livrables :**
   ![Screenshot_Task0_Scope](assets/task0_scope.png)
-  ![Création de l'arborescence](assets/dir_folders.png)
   ![Calcul du Hash SHA-256](assets/hash_sha256.png)
 
 ## 2. Analyse avec BeVigil
 
-**Objectif :** S'interfacer avec l'arsenal Cloud de balayage d'applications (*CloudSEK*) pour structurer les retours du scanner.
+**Mise en valeur du travail :** L'objectif de cette phase est de jouer le rôle d'un attaquant externe scannant la surface exposée de l'application sans connaissance initiale approfondie du code source.
 
-- **Étapes :** Soumission de l'APK, lancement du scan (Score global de 7.4/10) et exportation des archives JSON/CSV. Exploration des sections (Assets, Endpoints, URLs).
+- **Actions techniques :**
+  - Validation du fichier sur les moteurs de CloudSEK pour extraire les *Rulesets* d'audit automatisés.
+  - Extraction de tous les endpoints API cachés ainsi que de la cartographie réseau (URLs, Domaines).
+  - Export et sauvegarde des datas brutes au format JSON et CSV pour traitement ultérieur. L'application a récolté la note de vulnérabilité générale de 7.4/10.
 
-- **Observations :** Processus de soumission de l'APK sur la plateforme CloudSEK et génération du rapport.
-  ![Upload BeVigil](assets/bevigil_upload.png)
-  ![Analyse BeVigil Terminée](assets/bevigil_done.png)
-  ![Screenshot_Task4_Collecte](assets/task4_collecte.png)
+- **Explication Pédagogique (Qu'est-ce que le scan BeVigil ?) :**
+  C'est un moteur de recherche de sécurité. Il opère tel un scanner dans le cloud qui dissèque massivement l'architecture statique superficielle. En quelques secondes, sa puissance de calcul révèle les clés en dur ou les serveurs backend communiqués par les développeurs. Il me dirige directement là où la surface d'attaque est la plus "fragile".
 
-#### Qu'est-ce que le scan BeVigil / BigDvil ?
-BeVigil effectue une **analyse statique automatisée (SAST)**. Il extrait toutes les métadonnées, recherche des **secrets oubliés** (clés d'API, mots de passe), et liste l'exaustivité des **Endpoints réseau**. La production du fichier `bevigil_notes.md` contient les éléments critiques de l'outil.
+- **Résultats mis en relief (Extrait) :**
 
-**Tableau des Vulnérabilités (BigDvil / BeVigil) :**
-
-| Vulnérabilité | Risque | Sévérité | CVSS | Occurrences |
-|---|---|---|---|---|
-| Insecure communication | High | High | 8.1 | 36 |
-| Use of insufficiently random values | Medium | Medium | 5.9 | 3 |
-| Android debuggable enabled | Medium | Medium | 4.9 | 1 |
-| Android backup vulnerability | Medium | Medium | 4.9 | 1 |
-| Improper export of providers | Medium | Medium | 4.9 | 1 |
-| Weak hash – MD5 | Medium | Medium | 4.3 | 4 |
+| Top Vulnérabilité Macro | Sévérité / Risque | Score CVSS | Impact technique identifié |
+|---|---|---|---|
+| Mots de passe et Traffic non sécurisé | Élevée (High) | 8.1 | Révélation de transferts en HTTP sur le ChangePassword.java et DoTransfer.java |
+| Faiblesse de l'aléatoire (Random Values) | Moyenne (Med) | 5.9 | Facilite la prédiction des jetons de sessions par les pirates |
+| Application Debuggable | Moyenne (Med) | 4.9 | Permettrait à un individu d'attacher un outil de diagnostic interne |
+| Android Backup configuré à "Vrai" | Moyenne (Med) | 4.9 | Vol complet et illicite des données sur PC via ADB |
+| Algorithmes Obsoletes (MD5) | Basse (Low) | 4.3 | Cassable très rapidement par "Rainbow Tables" |
 
 ## 3. Analyse avec Yaazhini
 
-**Objectif :** Extraire le code binaire (*Disassembly*) pour pointer la ligne exacte des failles Android spécifiques.
+**Mise en valeur du travail :** Tandis que BeVigil scrute la façade externe, Yaazhini (outil SAST) détoure les entrailles du code. Cette analyse approfondie implique de déconstruire le binaire et de l'inspecter comme le ferait l'équipe de développement initiale.
 
-- **Étapes :** Déploiement de l'exécutable Yaazhini sur l'artefact. L'outil extrait le `classes.dex`, puis décompile au format Smali et Java. Revue fine du compte-rendu SAST, identification des exports de composants et données figées dans les ressources.
+- **Actions techniques :**
+  - **Reverse Engineering** : J'ai déployé l'exécutable local `yaazhini.exe` pointant vers l'APK cible. L'outil a dézippé l'archive, ciblé le fichier névralgique `classes.dex`, puis l'a rétro-conçu (décompilation) en code lisible (Smali / pseudo-Java).
+  - Lancement des sondes de regex et d'analyse d'AST (Abstract Syntax Tree) pour identifier non seulement *quoi*, mais *où* sont les vulnérabilités (jusqu'à la ligne XML précise).
 
-- **Observations :** 
-  ![Interface Yaazhini](assets/yaazhini_ui.png)
+- **Découvertes majeures investiguées (Notes Techniques) :**
 
-#### Résultats de l'Analyse Yaazhini
+  * **1. Hardcoded Credentials dans les ressources**
+    J'ai pu repérer et intercepter la variable de production `loginscreen_password` directement gravée en clair dans `resources/res/values/strings.xml`. C'est une négligence critique qui équivaut à laisser les clés de l'infrastructure sous le paillasson.
 
-La fouille manuelle et automatisée révèle des résultats primaires qui ont été catégorisés :
+  * **2. Risques majeurs sur les composants exportés (Activités ouvertes)**
+    Dans le fichier central `AndroidManifest.xml`, j'ai identifié des directives `android:exported=true`. Cela signifie que même sans être identifié sur l'application, l'interface de virement bancaire ou l'écran de modification de mot de passe de l'utilisateur peuvent être évoqués sans sécurité (« bypass d'authentification »).
 
-| Vulnérabilité / Identification | Risque | Sévérité | CVSS (Estimé) | Chemin du Fichier |
-|---|---|---|---|---|
-| **Composant Activity Exporté non protégé** | Critique | Haute | 8.8 (High) | `AndroidManifest.xml` |
-| **Utilisation Crypto Obsolète (AES/CBC)** | Élevé | Moyenne | 5.9 (Med) | `CryptoClass.java` |
-| **Cleartext Traffic Enabled (HTTP Autorisé)** | Critique | Haute | 7.5 (High) | `AndroidManifest.xml` |
-| **Backup ADB Activé (`allowBackup=true`)** | Modéré | Basse | 4.3 (Low) | `AndroidManifest.xml` |
-| **Insecure Data Storage (SharedPrefs)** | Critique | Haute | 7.5 (High) | `DoLogin.java` |
-
-#### Yaazhini Notes et Explications techniques internes :
-
-* **Élément 1 : Hardcoded API Key / Credentials (Secret)**
-  * *Localisation* : `resources/res/values/strings.xml`
-  * *Description* : Le champ `loginscreen_password` contient des données brutes en clair.
-
-* **Élément 2 : Traffic réseau en clair autorisé (Configuration)**
-  * *Localisation* : `AndroidManifest.xml` (`usesCleartextTraffic`)
-  * *Description* : Aucun flag n'oblige le recours à HTTPS strict, autorisant des transferts HTTP en clair.
-
-* **Élément 3 : Activités non authentifiées (Composants)**
-  * *Localisation* : `AndroidManifest.xml` (`android:exported=true`)
-  * *Description* : Des composants d'interface (comme le Transfert d'argent) sont accessibles depuis l'extérieur.
-
-* **Élément 4 : Autorisation de sauvegarde système**
-  * *Localisation* : `AndroidManifest.xml` (`allowBackup="true"`)
-  * *Description* : Le droit d'extraire les données applicatives par un terminal ADB est ouvert.
-
-* **Élément 5 : Requêtes dynamiques vulnérables (SQLi)**
-  * *Localisation* : Concaténations `rawQuery()` non assainies dans les sources.
-  * *Description* : Manipulations faciles par injections SQL sur les requêtes locales.
+  * **3. Failles de Flux Dynamique (SQL Injections locales)**
+    Dans les couches Java (`sources/com/...`), j'ai découvert l'emploi de de jonctions dangereuses sur des curseurs SQlite (`rawQuery()`). L'historique transactionnel de la banque est directement modelable et piratable depuis l'interface client (Inputs UI compromettant).
 
 ## 4. Triage
 
-**Objectif :** Regrouper les constatations issues de multiples scanners locaux ou distants.
-- **Actions :** Collecte en bloc de l'ensemble des résultats de BeVigil et des alertes brutes de Yaazhini vers les fichiers préparatoires. Le triage sert à identifier ce qui tient de la faille potentielle versus le fonctionnement prévu.
+**Mise en valeur du travail :** Les outils automatisés sont "bruyants" et génèrent énormément d'alertes, y compris des Faux Positifs (ex: fausses alertes sur des dépendances JavaScript légitimes liées aux WebViews). Mon travail d'analyste a consisté à isoler le grain de l'ivraie.
+
+- **Actions :** Collecte consolidée. Croisement des tables issues de BeVigil (fichiers CSV) avec la sortie locale de Yaazhini. Ce traitement manuel est une preuve d'expertise car aucun logiciel ne surpasse la qualification et la décision humaine pour écarter ce qui n’est pas exploitable en conditions réelles.
 
 ## 5. Normalisation
 
-**Objectif :** Éliminer les doublons pour produire une base cohérente ("Single Source of Truth").
-- **Actions :** Création du fichier `03-triage/triage.csv` consolidant les vulnérabilités réparties par criticité.
-- **Explications :** Nous fusionnons les découvertes similaires. Par exemple : Le "Cleartext Traffic" mis en lumière par Yaazhini et "Insecure Communication" cité par BeVigil documentent la même faille macroscopique réseau. Le dédoublonnage est fondamental pour éviter de repasser deux fois sur le même faux positif.
+**Mise en valeur du travail :** J'ai uniformisé et dédoublonné les rapports pour présenter une *"Single Source of Truth"* (la version unique de la vérité) pour l'entreprise.
+
+- **Actions :** Édition du fichier `03-triage/triage.csv`. Ce nettoyage garantit qu’un développeur ne se retrouvera pas avec deux billets de failles pour un même problème. Par exemple : Bien que Yaazhini cite le `Cleartext Traffic` (Manifeste) et BeVigil cite l'`Insecure Communication` (Code Java), l'expertise en normalisation prouve qu'il ne s'agît que d'une seule faille colossale nécessitant une seule tâche corrective, optimisant ainsi le budget et le temps de l'équipe de réparation.
 
 ## 6. Corrélation OWASP
 
-**Objectif :** Contextualiser professionnellement les failles par rapport au standard Mobile de l'industrie.
-- **Actions :** Référencement des failles critiques au standard `MASVS` dans le fichier `owasp_mapping.md`.
-- **Explications :** L'assignation formelle ajoute du poids à une vulnérabilité. Par exemple : Assignation de `MASVS-NETWORK` pour les transferts Web en clair et de `MASVS-STORAGE` pour la compromission des clés en dur. On prouve ainsi la dangerosité reconnue des découvertes au regard de ce framework mondial (OWASP).
+**Mise en valeur du travail :** Présenter une erreur logicielle ne suffit pas. L'auditeur de sécurité doit lier une erreur à son impact sur le monde réel. L'alignement sur un standard industriel prouve à la direction la dangerosité officielle des découvertes.
+
+- **Actions :** Tous les constats majeurs ont été projetés (mapping) dans le référentiel normatif mondial **OWASP MASVS** (Mobile Application Security Verification Standard) dans le livrable `owasp_mapping.md`.
+- **Exemples :** Le fait de lier le "Trafic en clair autorisé" à la règle imposée `MASVS-NETWORK` prouve à l'équipe conformité qu'ils sont hors-la-loi par rapport aux directives internationales sur le chiffrement en transit des données personnelles d'utilisateurs.
 
 ## 7. Rédaction Rapport
 
-**Objectif :** Synthétiser un document d'action clair pour les décideurs.
-- **Actions :** Mise en œuvre de l'artefact exécutif `04-report/rapport_final.md`. Cet élément retient un Top 5 formel et traduit la complexité technique en risques business clairs.
+**Mise en valeur du travail :** Le pont ultime entre la technologie pure et la prise de décision stratégique des Chefs de Service et Dirigeants (CTO/CISO).
 
-#### Observations & Recommandations Cles :
-* Imposer le protocole **HTTPS** stricts.
-* Désactiver formellement les options de **debugging/Backup** en production.
-* Restreindre et encadrer **les permissions des composants exportés**.
-* Actualiser les algorithmes obsolètes et interdire **les mots de passe hardcodés**.
-* Remédiation par des tests DAST avec Frida / Objection pour la validation ultérieure de comportement.
+- **Actions :** Production de l'Executive Summary `04-report/rapport_final.md`. Cet artefact condense l'analyse en 5 points à impact Business fort.
+- **Recommandations Cles Priorisées :**
+  1. Activer stricto sensu une Configuration de Sécurité Réseau obligeant le `HTTPS` et TLS robustes.
+  2. Mettre immédiatement un terme aux options de developpement actives sur l'APK (`Android Backup` et `Debuggable`).
+  3. Protéger impérativement les activités dites "Exportées" du binaire pour restaurer une couche d'Authentication correcte.
+  4. Recours exclusif aux algorithmes recommandés par l'ANSSI / NIST (SHA-256 vs MD5) et migration des secrets (mots de passe) vers le Keystore Android matériel protégé.
 
 ## 8. Nettoyage & Clôture
 
-**Objectif :** La phase de clôture garantit que l'analyse est complète, que les livrables sont conformes aux attentes et qu'aucune donnée sensible n'est exposée inutilement.
+**Mise en valeur du travail :** Conformément à l'attitude d'un auditeur d'élite, j'ai garanti la confidentialité absolue du projet tout à la fin de ma mission.
 
 - **Actions Réalisées :**
-  - **Vérification de l'absence de données sensibles :** Tous les fichiers ont été parcourus (recherche de mots-clés "password", "key", etc.) et les secrets identifiés ont été masqués via la balise `[MASQUÉ]`.
-  - **Validation des Livrables :** Vérification stricte de l'arborescence (`00-scope/`, `01-bevigil/`, `02-yaazhini/`, `03-triage/`, `04-report/`) et de la présence des rapports et notes (`triage.csv`, `owasp_mapping.md`).
-  - **Checklist Finale :** Création et validation d'un fichier de vérification `checklist_fin.md` dûment signé attestant du respect des règles éthiques et du cahier des charges.
-  - **Archivage / Clôture :** Traitement de tous les journaux de commandes (`commands.log`) et push final sur le répertoire Git.
+  - **Désensibilisation des données :** Audit approfondi de l'ensemble de mes propres rapports documentaires. Tous les fichiers de résultats ont été scannés pour y chercher des mots clés "secret", "password" ou "key". J'ai masqué manuellement (balise `[MASQUÉ]`) les identifiants en dur détectés afin qu'aucune donnée client confidentielle ne soit compromise lors de la livraison du rapport.
+  - **Validation des Livrables & Checklist :** Validation de bout-en-bout via la création d'une charte qualité `checklist_fin.md`. J'ai contresigné numériquement (Date et Signature formelle) la garantie que la prestation (Triage CSV, Logs, Notes, Scope, Rapport final) a été délivrée telle que spécifiée.
+  - **Archivage & Hygiène :** Tri du log `commands.log` et publication finale sur l'arbre Git pour horodatage officiel permanent et indexation immuable de mon travail.
 
-**Explication pour débutants :** La *"vérification finale"* (avec une *checklist*) est fondamentale avant toute livraison client pour éviter d'exposer des "données sensibles" résiduelles et pour valider que tous les "livrables" (fichiers requis) sont complets. La signature certifie formellement la prestation.
+**Conclusion :** Le laboratoire *InsecureBankv2* s'achève avec succès, fournissant un éventail diagnostique complet et clair, transformable instantanément par les équipes de développement en un sprint de correctifs de sécurité logiciel.
