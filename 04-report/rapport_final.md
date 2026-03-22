@@ -1,8 +1,8 @@
 # Rapport d'analyse de sécurité mobile
 
 ## A. Informations générales
-- **Date**: $(Get-Date -Format "yyyy-MM-dd")
-- **Analyste**: [Prénom Nom]
+- **Date**: 22/03/2026
+- **Analyste**: Chaira Hajar
 - **Cible**: InsecureBankv2
 - **Version/Hash**: B18AF2A0E44D7634BBCDF93664D9C78A2695E050393FCFBB5E8B91F902D194A4
 - **Outils utilisés**: BeVigil / BigDvil Web Scan, Yaazhini 2.0.2
