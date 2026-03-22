@@ -1,0 +1,14 @@
+@"
+Date: 2026-03-22
+Analyste: Ton Nom
+Cible: InsecureBankv2
+Artefact: InsecureBankv2.apk
+Provenance: TP Sécurité Mobile
+
+Hash: B18AF2A0E44D7634BBCDF93664D9C78A2695E050393FCFBB5E8B91F902D194A4
+
+Versions outils:
+  - BeVigil: Web Scan
+  - Yaazhini: 2.0.2
+
+Environnement: Windows 

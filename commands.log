@@ -1,0 +1,9 @@
+Log des commandes - 2026-03-22
+
+Copy-Item InsecureBankv2.apk vers 00-scope
+
+"Get-FileHash -Path '00-scope\InsecureBankv2.apk' -Algorithm SHA256" | Out-File -FilePath "commands.log" -Encoding utf8 -Append
+
+Lancement Yaazhini 2.0.2
+
+Opened BeVigil web interface and logged in

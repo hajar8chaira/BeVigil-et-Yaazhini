@@ -1,0 +1,2 @@
+Id,Severity,Rule,Description,Matched Files
+"1","low","Possible Secret Detected","The application contains hardcoded credentials, such as API keys, passwords, or tokens. This poses a significant security risk because unauthorized individuals could potentially access sensitive resources or data if these credentials are exposed. Hardcoding secrets directly in the application code makes them easily discoverable through reverse engineering or code analysis.","loginscreen_password"">Password: (resources/res/values/strings.xml)"

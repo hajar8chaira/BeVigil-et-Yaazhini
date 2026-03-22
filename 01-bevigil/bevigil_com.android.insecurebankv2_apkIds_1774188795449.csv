@@ -1,0 +1,2 @@
+Id,File,anti_vm,compiler,manipulator
+"1","classes.dex","Build.MODEL check, Build.MANUFACTURER check, Build.PRODUCT check","dx (possible dexmerge)","dexmerge"
