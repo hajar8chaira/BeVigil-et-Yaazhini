@@ -5,7 +5,7 @@
 **Date du rapport :** 22/03/2026  
 **Outils :** BeVigil (Web Scan), Yaazhini (SAST/DAST Tool)
 
-## Vue d'ensemble (Overview)
+## Overview
 Ce projet est un laboratoire pratique d'audit de sécurité d'applications mobiles, visant à évaluer rigoureusement la posture de sécurité d'une application Android pédagogique nommée **InsecureBankv2**. Ce document sert de rapport de restitution global et démontre pas à pas une méthodologie professionnelle d'analyse statique et d'OSINT.
 
 **Qu'est-ce que InsecureBankv2 ?**
@@ -49,30 +49,35 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 **Mise en valeur du travail :** L'objectif de cette phase est de jouer le rôle d'un attaquant externe scannant la surface exposée de l'application sans connaissance initiale approfondie du code source.
 
 - **Actions techniques :**
+
   - Validation du fichier sur les moteurs de CloudSEK pour extraire les *Rulesets* d'audit automatisés.
   - Extraction de tous les endpoints API cachés ainsi que de la cartographie réseau (URLs, Domaines).
   - Export et sauvegarde des datas brutes au format JSON et CSV pour traitement ultérieur. L'application a récolté la note de vulnérabilité générale de 7.4/10.
 
 - **Explication Pédagogique (Qu'est-ce que le scan BeVigil ?) :**
+
 - <p align="center"> <img src="images/11.png" width="800"> </p>
   C'est un moteur de recherche de sécurité. Il opère tel un scanner dans le cloud qui dissèque massivement l'architecture statique superficielle. En quelques secondes, sa puissance de calcul révèle les clés en dur ou les serveurs backend communiqués par les développeurs. Il me dirige directement là où la surface d'attaque est la plus "fragile".
 
 ## Scan de L'APk:
 ## 1. L'interface de soumission (Upload Phase)
 *  C'est ici que commence l'audit de type "Black-Box". On dépose le binaire de l'application (`InsecureBankv2.apk`). À partir de ce moment, le fichier est envoyé sur les serveurs sécurisés de CloudSEK pour y subir une ingénierie inverse (Reverse Engineering) entièrement automatisée.
-*  
+
 <p align="center"> <img src="images/4.png" width="800"> </p>
 <p align="center"> <img src="images/5.png" width="800"> </p>
+
 ## 2 . Le Tableau de Bord Central (Security Dashboard)
 
 <p align="center"> <img src="images/6.png" width="800"> </p>
 
 *  La note de sécurité globale de l'application (**Security Rating : 7.4 / Average**) ainsi qu'un résumé visuel des failles (graphiques à barres).
 *  Elle résume instantanément le niveau de risque. On y voit immédiatement que l'application pèche par des défauts liés au **stockage d'informations sensibles (Shared Preferences et Logs)** et des **Activités Exportées** dans le Manifest (`resources/AndroidManifest.xml`). L'outil propose même des indicateurs montrant comment le score s'améliorerait (passant à 8.8 - GOOD) si certaines failles moyennes étaient corrigées.
+
 *  Ce qui est fournit en gros :
 <p align="center"> <img src="images/17.png" width="800"> </p>
 
 - **Résultats mis en relief (Extrait) :**
+- 
 ## Assets:
 <p align="center"> <img src="images/7.png" width="800"> </p>
 <p align="center"> <img src="images/68.png" width="800"> </p>
@@ -84,7 +89,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 <p align="center"> <img src="images/17.png" width="800"> </p>
 <p align="center"> <img src="images/18.png" width="800"> </p>
 
-## Strings,ApkId ... et dautres sauvegarder dans 02-bivigil .
+### Strings,ApkId ... et dautres sauvegarder dans 02-bivigil 
 
 | Top Vulnérabilité Macro | Sévérité / Risque | Score CVSS | Impact technique identifié |
 |---|---|---|---|
