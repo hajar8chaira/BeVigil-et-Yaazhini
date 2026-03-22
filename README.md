@@ -6,7 +6,17 @@
 **Outils :** BeVigil / BigDvil (Web Scan), Yaazhini (SAST/DAST Tool)
 
 ## 📌 Vue d'ensemble (Overview)
-Ce projet vise à évaluer la posture de sécurité d'une application Android pédagogique nommée **InsecureBankv2**. À travers une approche structurée (Task 0 à Task 6), ce laboratoire met en œuvre l'analyse statique et dynamique. Nous avons utilisé **BeVigil** pour cartographier l'intelligence des menaces externes (Surface d'attaque OSINT) et **Yaazhini** pour une fouille en profondeur (analyse de code binaire, vulnérabilités logiques, configurations Manifest).
+Ce projet vise à évaluer la posture de sécurité d'une application Android pédagogique nommée **InsecureBankv2**. 
+
+**Qu'est-ce que InsecureBankv2 ?**
+Il s'agit d'une application bancaire factice "délibérément vulnérable" (*Vulnerable By Design*). Elle a été créée par des experts en sécurité pour permettre aux étudiants et professionnels de s'entraîner au pentest mobile. Elle regorge d'erreurs classiques de développement réel (composants exportés, trafic en clair, mots de passe codés en dur, cryptographie obsolète).
+
+**Pourquoi BigDvil / BeVigil et Yaazhini ?**
+Pour une analyse exhaustive, deux points de vue sont nécessaires :
+1. **BigDvil / BeVigil (L'approche OSINT / Cloud) :** Permet une analyse statique dite "Black-Box" depuis l'extérieur. L'outil agit comme un moteur de recherche de sécurité. Sans exécuter l'application, il cartographie presque instantanément sa surface d'attaque externe globale (Endpoints d'API ouverts, sous-domaines, e-mails oubliés, vulnérabilités massives).
+2. **Yaazhini (L'approche SAST en profondeur) :** Permet d'investiguer le code en lui-même (White/Grey-Box). Après décompilation de l'APK, cet outil descend dans la logique binaire. Il permet de repérer non seulement *qu'il y a une faille*, mais de donner aux développeurs le fichier de code Java exact et la ressource XML précise à corriger.
+
+À travers une approche structurée (Task 0 à Task 9), ce laboratoire met en œuvre l'analyse statique et dynamique de bout en bout.
 
 ---
 
@@ -119,19 +129,19 @@ BeVigil est le premier moteur de recherche de sécurité au monde dédié aux ap
 **Objectif :** Éliminer les doublons entre les scanners OSINT et SAST afin de produire une base cohérente.
 - **Étapes :** Création du fichier `03-triage/triage.csv` consolidant 10 vulnérabilités réparties par criticité.
 - **Résultats :** Nous avons fusionné les découvertes (exemple : Le "Cleartext Traffic" de Yaazhini et l'"Insecure Communication" de BigDvil se sont avérés décrire la même faille macroscopique).
-- **Apprentissages :** Avoir plusieurs scanners génère du bruit. La validation croisée est primordiale pour ne fournir que des alertes validées au développeur.
+- **Explication pour débutants :** La *normalisation* est le fait d'uniformiser différents types de rapports d'erreurs. Le *dédoublonnage* empêche qu'un développeur corrige deux fois le même problème signalé par deux outils différents. Cette étape de nettoyage est fondamentale en entreprise pour éviter les faux positifs ("bruit").
 
 ### Task 8 — Corrélation avec OWASP MASVS
 **Objectif :** Contextualiser professionnellement les failles découvertes par rapport au standard de l'industrie.
 - **Étapes :** Référencement de 5 failles critiques au standard `MASVS` dans le fichier `03-triage/owasp_mapping.md`.
 - **Résultats :** Assignation des catégories OWASP : `MASVS-NETWORK` pour les transferts Web en clair, `MASVS-STORAGE` pour la compromission des mots de passe en dur.
-- **Apprentissages :** Référencer OWASP permet aux développeurs qui traiteront la correction de s'appuyer sur une documentation méthodologique standardisée mondiale au lieu d'une simple ligne de script.
+- **Explication pour débutants :** **L'OWASP** est l'organisation mondiale référence pour la sécurité des applications. Le **MASVS** *(Mobile Application Security Verification Standard)* est leur guide de vérification. En liant une faille à une règle OWASP (ex: V5.1), on justifie que le problème est un risque réel reconnu par l'industrie de la cybersécurité.
 
 ### Task 9 — Rédaction du mini-rapport final
 **Objectif :** Synthétiser un document d'action clair pour les décideurs techniques et managériaux.
 - **Étapes :** Mise en œuvre de l'artefact terminal `04-report/rapport_final.md`. Cet élément retient un Top 5 formel et identifie l'attribut de Faux Positifs (comme l'application du JS dans les WebViews).
 - **Résultats :** L'analyse est achevée, les livrables de la racine jusqu'au compte-rendu sont parés pour transmission.
-- **Apprentissages :** La qualité de la livraison documentaire (Executive Summary, Triage clair, Top 5) détermine 80% de la valeur perçue par l'entreprise auditrice face à la technique pure.
+- **Explication pour débutants :** Le *rapport exécutif* est la seule chose que liront les dirigeants (CISO, CTO). Il doit résumer la situation totale en 5 lignes, sortir un *Top 5 des urgences absolues*, et proposer des *remédiations* (solutions). Un expert doit savoir transformer sa technique en langage "Business".
 
 ---
 
