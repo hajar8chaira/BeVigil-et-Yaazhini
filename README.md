@@ -5,15 +5,15 @@
 **Date du rapport :** 22/03/2026  
 **Outils :** BeVigil / BigDvil (Web Scan), Yaazhini (SAST/DAST Tool)
 
-## 📌 Vue d'ensemble (Overview)
+##  Vue d'ensemble (Overview)
 Ce projet vise à évaluer la posture de sécurité d'une application Android pédagogique nommée **InsecureBankv2**. 
 
 **Qu'est-ce que InsecureBankv2 ?**
 Il s'agit d'une application bancaire factice "délibérément vulnérable" (*Vulnerable By Design*). Elle a été créée par des experts en sécurité pour permettre aux étudiants et professionnels de s'entraîner au pentest mobile. Elle regorge d'erreurs classiques de développement réel (composants exportés, trafic en clair, mots de passe codés en dur, cryptographie obsolète).
 
-**Pourquoi BigDvil / BeVigil et Yaazhini ?**
+**Pourquoi  BeVigil et Yaazhini ?**
 Pour une analyse exhaustive, deux points de vue sont nécessaires :
-1. **BigDvil / BeVigil (L'approche OSINT / Cloud) :** Permet une analyse statique dite "Black-Box" depuis l'extérieur. L'outil agit comme un moteur de recherche de sécurité. Sans exécuter l'application, il cartographie presque instantanément sa surface d'attaque externe globale (Endpoints d'API ouverts, sous-domaines, e-mails oubliés, vulnérabilités massives).
+1. ** BeVigil (L'approche OSINT / Cloud) :** Permet une analyse statique dite "Black-Box" depuis l'extérieur. L'outil agit comme un moteur de recherche de sécurité. Sans exécuter l'application, il cartographie presque instantanément sa surface d'attaque externe globale (Endpoints d'API ouverts, sous-domaines, e-mails oubliés, vulnérabilités massives).
 2. **Yaazhini (L'approche SAST en profondeur) :** Permet d'investiguer le code en lui-même (White/Grey-Box). Après décompilation de l'APK, cet outil descend dans la logique binaire. Il permet de repérer non seulement *qu'il y a une faille*, mais de donner aux développeurs le fichier de code Java exact et la ressource XML précise à corriger.
 
 À travers une approche structurée (d'une Étape Préliminaire à l'Étape 9), ce laboratoire met en œuvre l'analyse statique et dynamique de bout en bout.
@@ -28,7 +28,7 @@ Pour une analyse exhaustive, deux points de vue sont nécessaires :
 
 ---
 
-## 🚀 1. Chronologie de l'Audit
+##  1. Chronologie de l'Audit
 
 ### Étape Préliminaire — Définition Officielle du Périmètre (Scope)
 **Objectif :** Définir le cadre légal pour se prémunir d'incidents juridiques.
