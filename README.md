@@ -20,7 +20,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 
 ---
 
-## Sommaire (Table of Contents)
+## Sommaire 
 1. [Préparation & Périmètre](#1-préparation--périmètre)
 2. [Analyse avec BeVigil](#2-analyse-avec-bevigil)
 3. [Analyse avec Yaazhini](#3-analyse-avec-yaazhini)
