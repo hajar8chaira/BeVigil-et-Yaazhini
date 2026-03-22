@@ -147,8 +147,12 @@ La fouille manuelle et automatisée révèle des résultats primaires qui ont é
 
 ## 8. Nettoyage & Clôture
 
-**Objectif :** Protéger le matériel confidentiel et clôturer proprement la séquence d'engagement.
-- **Actions :**
-  - Nettoyage des fichiers temporaires mis en cache par les scanners (suppression des fichiers Dex extraits).
-  - Validation finale du rapport, sauvegarde sécurisée des exports JSON de l'arborescence, et indexation finale.
-  - Push final sur le répertoire Git et préparation du dépôt (Clôture de la séquence).
+**Objectif :** La phase de clôture garantit que l'analyse est complète, que les livrables sont conformes aux attentes et qu'aucune donnée sensible n'est exposée inutilement.
+
+- **Actions Réalisées :**
+  - **Vérification de l'absence de données sensibles :** Tous les fichiers ont été parcourus (recherche de mots-clés "password", "key", etc.) et les secrets identifiés ont été masqués via la balise `[MASQUÉ]`.
+  - **Validation des Livrables :** Vérification stricte de l'arborescence (`00-scope/`, `01-bevigil/`, `02-yaazhini/`, `03-triage/`, `04-report/`) et de la présence des rapports et notes (`triage.csv`, `owasp_mapping.md`).
+  - **Checklist Finale :** Création et validation d'un fichier de vérification `checklist_fin.md` dûment signé attestant du respect des règles éthiques et du cahier des charges.
+  - **Archivage / Clôture :** Traitement de tous les journaux de commandes (`commands.log`) et push final sur le répertoire Git.
+
+**Explication pour débutants :** La *"vérification finale"* (avec une *checklist*) est fondamentale avant toute livraison client pour éviter d'exposer des "données sensibles" résiduelles et pour valider que tous les "livrables" (fichiers requis) sont complets. La signature certifie formellement la prestation.
