@@ -3,15 +3,17 @@
 **Auteur :** Chaira Hajar  
 **Application Cible :** `InsecureBankv2.apk`  
 **Date du rapport :** 22/03/2026  
-**Outils :** BeVigil / BigDvil (Web Scan), Yaazhini (SAST/DAST Tool)
+**Outils :** BeVigil (Web Scan), Yaazhini (SAST/DAST Tool)
 
 ## Vue d'ensemble (Overview)
 Ce projet est un laboratoire pratique d'audit de sécurité d'applications mobiles, visant à évaluer rigoureusement la posture de sécurité d'une application Android pédagogique nommée **InsecureBankv2**. Ce document sert de rapport de restitution global et démontre pas à pas une méthodologie professionnelle d'analyse statique et d'OSINT.
 
 **Qu'est-ce que InsecureBankv2 ?**
+
 Il s'agit d'une application bancaire factice "délibérément vulnérable" (*Vulnerable By Design*). Conçue par des experts en sécurité pour l'entraînement au pentest mobile, elle regorge des vulnérabilités de développement les plus fréquentes dans l'industrie (modèle de menaces OWASP Mobile) : composants exportés non protégés, trafic exposé, mots de passe codés en dur, et faiblesses cryptographiques majeures.
 
 **Pourquoi BeVigil et Yaazhini ?**
+
 L'association de ces deux outils m'a permis de réaliser un audit croisé avec deux perspectives fondamentales :
 1. **BeVigil (L'approche OSINT / Analyse Cloud) :** Offre une vision type "Black-Box". Cet outil effectue un balayage massif de l'infrastructure et des métadonnées de l'application depuis l'extérieur. Il cartographie les domaines, endpoints d'API, adresses emails exposées et identifie rapidement les erreurs de configuration grossières.
 2. **Yaazhini (L'approche SAST en profondeur) :** Apporte l'analyse "White-Box". Par des techniques de rétro-ingénierie (Reverse Engineering), cet outil "désassemble" l'APK pour examiner le code source interne (XML, Manifest, classes Java). Il cible la faille à la ligne près.
@@ -39,9 +41,8 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
   - **Création du Workspace :** J'ai mis en place une arborescence ordonnée de niveau industriel : `01-bevigil`, `02-yaazhini`, `03-triage`, `04-report`, couplée à un journal de commandes `commands.log` pour assurer la stricte reproductibilité de mon travail.
   - **Empreinte Cryptographique :** Pour des raisons de conformité et de *Chaîne de possession* (Chain of Custody), le hachage (SHA-256) du fichier cible a été calculé et scellé (`B18AF2A0E44D7634BBCDF93664D9C78A2695E050393FCFBB5E8B9...`). Cette étape garantit sans débat possible que le fichier que j'analyse est l'exact binaire défini avec le client.
 
-- **Preuves et livrables :**
-  ![Screenshot_Task0_Scope](assets/task0_scope.png)
-  ![Calcul du Hash SHA-256](assets/hash_sha256.png)
+<p align="center"> <img src="images/1.png" width="800"> </p>
+<p align="center"> <img src="images/2.png" width="800"> </p>
 
 ## 2. Analyse avec BeVigil
 
@@ -53,9 +54,37 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
   - Export et sauvegarde des datas brutes au format JSON et CSV pour traitement ultérieur. L'application a récolté la note de vulnérabilité générale de 7.4/10.
 
 - **Explication Pédagogique (Qu'est-ce que le scan BeVigil ?) :**
+- <p align="center"> <img src="images/11.png" width="800"> </p>
   C'est un moteur de recherche de sécurité. Il opère tel un scanner dans le cloud qui dissèque massivement l'architecture statique superficielle. En quelques secondes, sa puissance de calcul révèle les clés en dur ou les serveurs backend communiqués par les développeurs. Il me dirige directement là où la surface d'attaque est la plus "fragile".
 
+## Scan de L'APk:
+## 1. L'interface de soumission (Upload Phase)
+*  C'est ici que commence l'audit de type "Black-Box". On dépose le binaire de l'application (`InsecureBankv2.apk`). À partir de ce moment, le fichier est envoyé sur les serveurs sécurisés de CloudSEK pour y subir une ingénierie inverse (Reverse Engineering) entièrement automatisée.
+*  
+<p align="center"> <img src="images/4.png" width="800"> </p>
+<p align="center"> <img src="images/5.png" width="800"> </p>
+## 2 . Le Tableau de Bord Central (Security Dashboard)
+
+<p align="center"> <img src="images/6.png" width="800"> </p>
+
+*  La note de sécurité globale de l'application (**Security Rating : 7.4 / Average**) ainsi qu'un résumé visuel des failles (graphiques à barres).
+*  Elle résume instantanément le niveau de risque. On y voit immédiatement que l'application pèche par des défauts liés au **stockage d'informations sensibles (Shared Preferences et Logs)** et des **Activités Exportées** dans le Manifest (`resources/AndroidManifest.xml`). L'outil propose même des indicateurs montrant comment le score s'améliorerait (passant à 8.8 - GOOD) si certaines failles moyennes étaient corrigées.
+*  Ce qui est fournit en gros :
+<p align="center"> <img src="images/17.png" width="800"> </p>
+
 - **Résultats mis en relief (Extrait) :**
+## Assets:
+<p align="center"> <img src="images/7.png" width="800"> </p>
+<p align="center"> <img src="images/68.png" width="800"> </p>
+
+## Manifest scanner :
+<p align="center"> <img src="images/10.png" width="800"> </p>
+
+## Vulnerabilites:
+<p align="center"> <img src="images/17.png" width="800"> </p>
+<p align="center"> <img src="images/18.png" width="800"> </p>
+
+## Strings,ApkId ... et dautres sauvegarder dans 02-bivigil .
 
 | Top Vulnérabilité Macro | Sévérité / Risque | Score CVSS | Impact technique identifié |
 |---|---|---|---|
@@ -66,12 +95,13 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 | Algorithmes Obsoletes (MD5) | Basse (Low) | 4.3 | Cassable très rapidement par "Rainbow Tables" |
 
 ## 3. Analyse avec Yaazhini
-
-**Mise en valeur du travail :** Tandis que BeVigil scrute la façade externe, Yaazhini (outil SAST) détoure les entrailles du code. Cette analyse approfondie implique de déconstruire le binaire et de l'inspecter comme le ferait l'équipe de développement initiale.
+ Tandis que BeVigil scrute la façade externe, Yaazhini (outil SAST) détoure les entrailles du code. Cette analyse approfondie implique de déconstruire le binaire et de l'inspecter comme le ferait l'équipe de développement initiale.
 
 - **Actions techniques :**
   - **Reverse Engineering** : J'ai déployé l'exécutable local `yaazhini.exe` pointant vers l'APK cible. L'outil a dézippé l'archive, ciblé le fichier névralgique `classes.dex`, puis l'a rétro-conçu (décompilation) en code lisible (Smali / pseudo-Java).
   - Lancement des sondes de regex et d'analyse d'AST (Abstract Syntax Tree) pour identifier non seulement *quoi*, mais *où* sont les vulnérabilités (jusqu'à la ligne XML précise).
+  
+<p align="center"> <img src="images/14.png" width="800"> </p>
 
 - **Découvertes majeures investiguées (Notes Techniques) :**
 
@@ -83,6 +113,20 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 
   * **3. Failles de Flux Dynamique (SQL Injections locales)**
     Dans les couches Java (`sources/com/...`), j'ai découvert l'emploi de de jonctions dangereuses sur des curseurs SQlite (`rawQuery()`). L'historique transactionnel de la banque est directement modelable et piratable depuis l'interface client (Inputs UI compromettant).
+
+- **Rapport exportee :**
+
+<p align="center"> <img src="images/15.png" width="800"> </p>
+<p align="center"> <img src="images/16.png" width="800"> </p>
+
+| Faille Majeure Trouvée | Localisation Technique | Ce qu'il se passe concrètement | Pourquoi c'est très grave (Impact Réel) |
+|---|---|---|---|
+| **1. Hardcoded API Key / Credentials** *(Le mot de passe oublié)* | Fichier des textes de l'application : `resources/res/values/strings.xml` | Les développeurs ont écrit un mot de passe ou une clé secrète directement en clair dans le code de l'application (la variable `loginscreen_password`). | N'importe qui téléchargeant l'application peut simplement la décompiler (Reverse Engineering) et y lire ce mot de passe illisible autrement. Cela permet au pirate de s'authentifier immédiatement sur l'application. |
+| **2. Cleartext Traffic** *(Le Trafic réseau autorisé en clair)* | Fichier de configuration principal : L'attribut `android:usesCleartextTraffic="true"` dans l'`Android Manifest`. | L'application indique explicitement au système du téléphone qu'elle autorise le dialogue avec son serveur en mode HTTP simple (non chiffré par TLS/HTTPS). | Si la victime se connecte au Wi-Fi d'un aéroport ou d'un café, le pirate local peut "écouter silencieusement l'air" (Sniffing) et lire les virements bancaires et mots de passe en texte clair fluides sous ses yeux. |
+| **3. Composants Exportés** *(Les portes laissées grandes ouvertes)* | L'attribut `android:exported="true"` positionné sur les Activités (écrans) dans l'`Android Manifest`. | Sur Android, un écran s'appelle une "Activité". L'écran de virement (`DoTransfer`) a été défini comme "Public/Exporté" au lieu d'être privé et réservé à l'application bancaire elle-même. | Un pirate peut ordonner à un malware (déjà installé sur le téléphone cible) "d'invoquer" directement l'écran de virement bancaire, sautant et contournant ainsi complètement (Bypassing) l'étape du mot de passe initial de la banque. |
+| **4. ADB Backup Autorisé** *(L'Autorisation de Sauvegarde Système)* | L'attribut `android:allowBackup="true"` situé dans le fichier `Android Manifest`. | L'application bancaire autorise officiellement le système Android à faire des sauvegardes de son enveloppe interne via un ordinateur connecté par câble USB. | Si un attaquant vole le téléphone (même s'il ne connaît pas le code PIN de l'application bancaire), il le branche par USB, lance la commande logicielle `adb backup -f`, et aspire tout l'historique bancaire, les secrets et la base de données SQLite du téléphone. |
+| **5. Injection SQL Locale** *(Les requêtes dynamiques SQLi)* | Dans les fichiers de programmation applicative Java (ex: `sources/com/google/.../zzj.java`). | Lorsqu'elle interroge sa base de données interne locale (SQLite), l'application ne désinfecte pas ce que tape l'utilisateur, et "colle" directement le texte au code (Concaténation `rawQuery`). | L'application subit une Injection SQL logicielle (SQLi). Le pirate peut insérer des symboles malicieux (ex: `' OR 1=1`) dans un champ texte. Le hacker pourra alors corrompre la base interne du téléphone ou extraire des carnets de contacts sans droit. |
+
 
 ## 4. Triage
 
