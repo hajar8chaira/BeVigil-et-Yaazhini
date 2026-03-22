@@ -10,7 +10,7 @@ Propriétaire: Projet open-source (GitHub)
 
 
 
-\## Autorisation
+## Autorisation
 
 Source: TP Sécurité Mobile
 
