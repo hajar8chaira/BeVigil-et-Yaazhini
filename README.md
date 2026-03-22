@@ -16,19 +16,19 @@ Pour une analyse exhaustive, deux points de vue sont nécessaires :
 1. **BigDvil / BeVigil (L'approche OSINT / Cloud) :** Permet une analyse statique dite "Black-Box" depuis l'extérieur. L'outil agit comme un moteur de recherche de sécurité. Sans exécuter l'application, il cartographie presque instantanément sa surface d'attaque externe globale (Endpoints d'API ouverts, sous-domaines, e-mails oubliés, vulnérabilités massives).
 2. **Yaazhini (L'approche SAST en profondeur) :** Permet d'investiguer le code en lui-même (White/Grey-Box). Après décompilation de l'APK, cet outil descend dans la logique binaire. Il permet de repérer non seulement *qu'il y a une faille*, mais de donner aux développeurs le fichier de code Java exact et la ressource XML précise à corriger.
 
-À travers une approche structurée (Task 0 à Task 9), ce laboratoire met en œuvre l'analyse statique et dynamique de bout en bout.
+À travers une approche structurée (d'une Étape Préliminaire à l'Étape 9), ce laboratoire met en œuvre l'analyse statique et dynamique de bout en bout.
 
 ---
 
 ## 📑 Sommaire (Table of Contents)
-1. [Tasks Summary (Résumé des Actions)](#-1-tasks-summary-résumé-des-actions)
+1. [Chronologie de l'Audit](#-1-chronologie-de-laudit)
 2. [Analysis Results (Yaazhini)](#-2-analysis-results-yaazhini)
 3. [Yaazhini Notes](#-3-yaazhini-notes)
 4. [Observations & Recommendations](#-4-observations--recommendations)
 
 ---
 
-## 🚀 1. Tasks Summary (Résumé des Actions)
+## 🚀 1. Chronologie de l'Audit
 
 ### Étape Préliminaire — Définition Officielle du Périmètre (Scope)
 **Objectif :** Définir le cadre légal pour se prémunir d'incidents juridiques.
