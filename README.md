@@ -8,11 +8,11 @@
 ## Overview
 Ce projet est un laboratoire pratique d'audit de sécurité d'applications mobiles, visant à évaluer rigoureusement la posture de sécurité d'une application Android pédagogique nommée **InsecureBankv2**. Ce document sert de rapport de restitution global et démontre pas à pas une méthodologie professionnelle d'analyse statique et d'OSINT.
 
-**Qu'est-ce que InsecureBankv2 ?**
+## Qu'est-ce que InsecureBankv2 ?**
 <p align="center"> <img src="images/21.png" width="600"> </p>
 Il s'agit d'une application bancaire factice "délibérément vulnérable" (*Vulnerable By Design*). Conçue par des experts en sécurité pour l'entraînement au pentest mobile, elle regorge des vulnérabilités de développement les plus fréquentes dans l'industrie (modèle de menaces OWASP Mobile) : composants exportés non protégés, trafic exposé, mots de passe codés en dur, et faiblesses cryptographiques majeures.
 
-**Pourquoi BeVigil et Yaazhini ?**
+## Pourquoi BeVigil et Yaazhini ?**
 
 L'association de ces deux outils m'a permis de réaliser un audit croisé avec deux perspectives fondamentales :
 1. **BeVigil (L'approche OSINT / Analyse Cloud) :** Offre une vision type "Black-Box". Cet outil effectue un balayage massif de l'infrastructure et des métadonnées de l'application depuis l'extérieur. Il cartographie les domaines, endpoints d'API, adresses emails exposées et identifie rapidement les erreurs de configuration grossières.
