@@ -30,7 +30,7 @@ Pour une analyse exhaustive, deux points de vue sont nécessaires :
 
 ## 🚀 1. Tasks Summary (Résumé des Actions)
 
-### Task 0 — Règles, périmètre et éthique
+### Étape Préliminaire — Définition Officielle du Périmètre (Scope)
 **Objectif :** Définir le cadre légal pour se prémunir d'incidents juridiques.
 - **Étapes :** Création du dossier `00-scope` et définition de l'artefact cible (InsecureBankv2) et des limites (aucun test d'exploitation intrusif réel).
 - **Commandes exécutées :**
@@ -42,7 +42,7 @@ Pour une analyse exhaustive, deux points de vue sont nécessaires :
 - **Résultats :** Périmètre défini avec précision dans `scope.md`.
 - **Apprentissages :** La délimitation d'un "scope d'audit" est la clef de voûte de toute prestation de pentest éthique.
 
-### Task 1 — Préparation du workspace et traçabilité
+### Étape 1 — Préparation de Cadrage et Traçabilité de l'Audit
 **Objectif :** Standardiser l'espace pour une efficacité professionnelle (Reproductibilité).
 - **Étapes :** Création de l'arborescence, du fichier d'informations d'analyse et du fichier de logs séquentiels.
 - **Commandes exécutées :**
@@ -55,7 +55,7 @@ Pour une analyse exhaustive, deux points de vue sont nécessaires :
 - **Résultats :** Création de `analyse_info.txt` recensant hôte, analyste et outils.
 - **Apprentissages :** Assurer un suivi granulaire des commandes via des scripts permet d'élaborer un rapport robuste a posteriori.
 
-### Task 2 — Préparer l'artefact autorisé
+### Étape 2 — Validation de l'Intégrité de la Cible (Hashing SHA-256)
 **Objectif :** Sceller l'empreinte d'intégrité de l'application via des algorithmes cryptographiques.
 - **Étapes :** Copier l'APK fourni vers le répertoire de travail et vérifier son hash.
 - **Commandes exécutées :**
@@ -67,7 +67,7 @@ Pour une analyse exhaustive, deux points de vue sont nécessaires :
 - **Résultats :** Hash SHA-256 consigné : `B18AF2A0E44D763...`
 - **Apprentissages :** Le hachage garantit que les observations futures sont liées à cette version exacte du fichier de l'entreprise.
 
-### Task 3 — Démarrage et prise en main BeVigil / BigDvil
+### Étape 3 — Scan OSINT avec CloudSEK / BeVigil
 **Objectif :** S'interfacer avec l'arsenal Cloud de balayage d'applications de *CloudSEK*.
 - **Étapes :** Authentification Web, configuration d'un projet, lancement du scan de l'APK (Score: 7.4) et exportation des archives CSV.
 - **Commandes exécutées :**
@@ -86,7 +86,7 @@ BeVigil est le premier moteur de recherche de sécurité au monde dédié aux ap
 - **Résultats :** Rapport de vulnérabilités, d'assets réseau et d'intégrité exporté.
 - **Apprentissages :** Extraire les data vers CSV favorise un *Triage* (tri par criticité) plus facile par de puissants parsers de données.
 
-### Task 4 — Collecte BeVigil / BigDvil : Vulnérabilités et Constats
+### Étape 4 — Reconnaissance Externe (Domaines, Emails, Endpoints APi)
 **Objectif :** Structurer les retours du scanner dans un rapport détaillé.
 - **Étapes :** Exportation des résultats (JSON/CSV) vers `01-bevigil/` et exploration des sections (Assets, Endpoints, URLs).
 - **Observations :** ![Screenshot_Task4_Collecte](assets/task4_collecte.png)
@@ -106,7 +106,7 @@ BeVigil est le premier moteur de recherche de sécurité au monde dédié aux ap
 
 - **Apprentissages :** La catégorisation des alertes facilite un triage immédiat par criticité (CVSS). 
 
-### Task 5 — Démarrage et prise en main Yaazhini
+### Étape 5 — Mise en Cale Sèche et Décompilation binaire via Yaazhini
 **Objectif :** Extraire le code binaire (*Disassembly*) pour remonter les failles Android spécifiques.
 - **Étapes :** Déploiement de l'exécutable/script Yaazhini sur l'artefact.
 - **Commandes exécutées :**
@@ -118,26 +118,26 @@ BeVigil est le premier moteur de recherche de sécurité au monde dédié aux ap
 - **Résultats :** Scan SAST approfondi des dépendances et de la structure du Manifest.
 - **Apprentissages :** Différentiel majeur avec BeVigil : Yaazhini rentre dans le cœur du code pour pointer *la ligne exacte* de la faille.
 
-### Task 6 — Collecte Yaazhini : Indices d'exposition
+### Étape 6 — Investigation des Fichiers Révélés (Indices de SAST profond)
 **Objectif :** Fouiller manuellement les alertes techniques retournées par l'outil.
 - **Étapes :** Revue fine du compte-rendu SAST, identification des exports de composants et données figées dans les ressources.
 - **Observations :** Les *Intents* Android sont mal sécurisés.
 - **Résultats :** Synthèse d'indicateurs de compromission critiques dans `yaazhini_notes.md` (Voir section "Yaazhini Notes" ci-dessous).
 - **Apprentissages :** Bien que les données soient masquées dans la documentation pour des raisons d'éthique, leur impact architectural est fondamental.
 
-### Task 7 — Normalisation et dédoublonnage (Triage)
+### Étape 7 — Consolidation, Nettoyage et Élimination des Faux Positifs
 **Objectif :** Éliminer les doublons entre les scanners OSINT et SAST afin de produire une base cohérente.
 - **Étapes :** Création du fichier `03-triage/triage.csv` consolidant 10 vulnérabilités réparties par criticité.
 - **Résultats :** Nous avons fusionné les découvertes (exemple : Le "Cleartext Traffic" de Yaazhini et l'"Insecure Communication" de BigDvil se sont avérés décrire la même faille macroscopique).
 - **Explication pour débutants :** La *normalisation* est le fait d'uniformiser différents types de rapports d'erreurs. Le *dédoublonnage* empêche qu'un développeur corrige deux fois le même problème signalé par deux outils différents. Cette étape de nettoyage est fondamentale en entreprise pour éviter les faux positifs ("bruit").
 
-### Task 8 — Corrélation avec OWASP MASVS
+### Étape 8 — Classification et Assignation des Risques selon Standards OWASP
 **Objectif :** Contextualiser professionnellement les failles découvertes par rapport au standard de l'industrie.
 - **Étapes :** Référencement de 5 failles critiques au standard `MASVS` dans le fichier `03-triage/owasp_mapping.md`.
 - **Résultats :** Assignation des catégories OWASP : `MASVS-NETWORK` pour les transferts Web en clair, `MASVS-STORAGE` pour la compromission des mots de passe en dur.
 - **Explication pour débutants :** **L'OWASP** est l'organisation mondiale référence pour la sécurité des applications. Le **MASVS** *(Mobile Application Security Verification Standard)* est leur guide de vérification. En liant une faille à une règle OWASP (ex: V5.1), on justifie que le problème est un risque réel reconnu par l'industrie de la cybersécurité.
 
-### Task 9 — Rédaction du mini-rapport final
+### Étape 9 — Finalisation et Extrants pour les Décideurs
 **Objectif :** Synthétiser un document d'action clair pour les décideurs techniques et managériaux.
 - **Étapes :** Mise en œuvre de l'artefact terminal `04-report/rapport_final.md`. Cet élément retient un Top 5 formel et identifie l'attribut de Faux Positifs (comme l'application du JS dans les WebViews).
 - **Résultats :** L'analyse est achevée, les livrables de la racine jusqu'au compte-rendu sont parés pour transmission.
