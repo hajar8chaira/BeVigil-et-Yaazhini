@@ -1,6 +1,6 @@
 @"
 Date: 2026-03-22
-Analyste: Ton Nom
+Analyste: Chaira Hajar
 Cible: InsecureBankv2
 Artefact: InsecureBankv2.apk
 Provenance: TP Sécurité Mobile
