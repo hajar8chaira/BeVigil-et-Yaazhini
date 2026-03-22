@@ -115,6 +115,24 @@ BeVigil est le premier moteur de recherche de sécurité au monde dédié aux ap
 - **Résultats :** Synthèse d'indicateurs de compromission critiques dans `yaazhini_notes.md` (Voir section "Yaazhini Notes" ci-dessous).
 - **Apprentissages :** Bien que les données soient masquées dans la documentation pour des raisons d'éthique, leur impact architectural est fondamental.
 
+### Task 7 — Normalisation et dédoublonnage (Triage)
+**Objectif :** Éliminer les doublons entre les scanners OSINT et SAST afin de produire une base cohérente.
+- **Étapes :** Création du fichier `03-triage/triage.csv` consolidant 10 vulnérabilités réparties par criticité.
+- **Résultats :** Nous avons fusionné les découvertes (exemple : Le "Cleartext Traffic" de Yaazhini et l'"Insecure Communication" de BigDvil se sont avérés décrire la même faille macroscopique).
+- **Apprentissages :** Avoir plusieurs scanners génère du bruit. La validation croisée est primordiale pour ne fournir que des alertes validées au développeur.
+
+### Task 8 — Corrélation avec OWASP MASVS
+**Objectif :** Contextualiser professionnellement les failles découvertes par rapport au standard de l'industrie.
+- **Étapes :** Référencement de 5 failles critiques au standard `MASVS` dans le fichier `03-triage/owasp_mapping.md`.
+- **Résultats :** Assignation des catégories OWASP : `MASVS-NETWORK` pour les transferts Web en clair, `MASVS-STORAGE` pour la compromission des mots de passe en dur.
+- **Apprentissages :** Référencer OWASP permet aux développeurs qui traiteront la correction de s'appuyer sur une documentation méthodologique standardisée mondiale au lieu d'une simple ligne de script.
+
+### Task 9 — Rédaction du mini-rapport final
+**Objectif :** Synthétiser un document d'action clair pour les décideurs techniques et managériaux.
+- **Étapes :** Mise en œuvre de l'artefact terminal `04-report/rapport_final.md`. Cet élément retient un Top 5 formel et identifie l'attribut de Faux Positifs (comme l'application du JS dans les WebViews).
+- **Résultats :** L'analyse est achevée, les livrables de la racine jusqu'au compte-rendu sont parés pour transmission.
+- **Apprentissages :** La qualité de la livraison documentaire (Executive Summary, Triage clair, Top 5) détermine 80% de la valeur perçue par l'entreprise auditrice face à la technique pure.
+
 ---
 
 ## 🛡️ 2. Analysis Results (Yaazhini)

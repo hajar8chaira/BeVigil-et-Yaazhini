@@ -1,0 +1,11 @@
+ID,Source,Élément,Preuve,Confiance,Sévérité,Impact,Recommandation,Référence OWASP,Statut
+FIND-001,BeVigil / BigDvil,Communication HTTP Insecure,"ChangePassword.java, DoLogin.java",Forte,High,Interception des identifiants et données de transfert via MITM,Forcer l'utilisation de HTTPS et TLS,MASVS-NETWORK-1,Confirmé
+FIND-002,BeVigil / BigDvil,Random Numbers Insecure,"zzl.java, Tracker.java",Forte,Medium,"Valeurs aléatoires prédictibles (java.util.Random) compromettant les tokens",Utiliser SecureRandom,MASVS-CRYPTO-6,Confirmé
+FIND-003,BeVigil+Yaazhini,Application Debuggable,AndroidManifest.xml (android:debuggable="true"),Forte,Medium,Permet un reverse engineering facilité et extraction de pile mémoire,Définir android:debuggable="false" en production,MASVS-RESILIENCE-2,Confirmé
+FIND-004,BeVigil+Yaazhini,Sauvegarde ADB Activée,AndroidManifest.xml (android:allowBackup="true"),Forte,Medium,Exfiltration de toutes les données locales via adb backup,Définir android:allowBackup="false",MASVS-STORAGE-4,Confirmé
+FIND-005,BeVigil+Yaazhini,Composant Provider Exposé,AndroidManifest.xml (TrackUserContentProvider),Forte,Medium,Accès aux requêtes internes pour toute autre application,Définir android:exported="false",MASVS-PLATFORM-2,Confirmé
+FIND-006,BeVigil / BigDvil,Weak Hash MD5,Multiples classes Java,Forte,Medium,Permet le cassage du hash par collision,Mettre à niveau vers SHA-256 ou PBKDF2,MASVS-CRYPTO-4,Confirmé
+FIND-007,BeVigil / BigDvil,JavaScript dans WebView,"ViewStatement.java, zzfd.java",Moyenne,Low,Risque d'injection XSS si les entrées du WebView sont contrôlables,Désactiver JavaScript sur les WebViews si non nécessaire,MASVS-PLATFORM-5,À confirmer
+FIND-008,Yaazhini,Hardcoded Credentials (Secret),strings.xml (loginscreen_password),Forte,High,Accès direct aux données avec mot de passe figé décompilable,Retirer les mots de passe en dur du code source,MASVS-STORAGE-14,Confirmé
+FIND-009,Yaazhini,Requête SQL dynamique (SQLi),zzj.java (rawQuery),Forte,Medium,Injection SQL locale via concaténation non filtrée,Utiliser les requêtes paramétrées (Prepared Statements),MASVS-STORAGE-3,Confirmé
+FIND-010,Yaazhini,Activités Exportées,"AndroidManifest.xml (DoTransfer, ChangePassword)",Forte,High,Bypasse de l'authentification et actions non autorisées,Restreindre avec android:exported="false" ou permission forte,MASVS-PLATFORM-1,Confirmé
