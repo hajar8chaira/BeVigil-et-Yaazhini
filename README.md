@@ -34,7 +34,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 
 ## 1. Préparation & Périmètre
 
-**Mise en valeur du travail :** Avant de lancer la moindre analyse technique, il est crucial d'établir les bases légales et traçables d'une mission de cybersécurité, connues sous le nom de *Rules of Engagement* (Règles d'engagement).
+ Avant de lancer la moindre analyse technique, il est crucial d'établir les bases légales et traçables d'une mission de cybersécurité, connues sous le nom de *Rules of Engagement* (Règles d'engagement).
 
 - **Actions effectuées :** 
   - **Délimitation du Scope :** Création du dossier `00-scope` renfermant `scope.md`. J'ai formalisé précisément la portée de l'exercice (l'APK InsecureBankv2) et ses limites (aucune tentative d'exploitation intrusive ou de déni de service n'est autorisée).
@@ -46,7 +46,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 
 ## 2. Analyse avec BeVigil
 
-**Mise en valeur du travail :** L'objectif de cette phase est de jouer le rôle d'un attaquant externe scannant la surface exposée de l'application sans connaissance initiale approfondie du code source.
+ L'objectif de cette phase est de jouer le rôle d'un attaquant externe scannant la surface exposée de l'application sans connaissance initiale approfondie du code source.
 
 - **Actions techniques :**
 
@@ -56,7 +56,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 
 - **Explication Pédagogique (Qu'est-ce que le scan BeVigil ?) :**
 
-- <p align="center"> <img src="images/11.png" width="800"> </p>
+<p align="center"> <img src="images/11.png" width="600"> </p>
   C'est un moteur de recherche de sécurité. Il opère tel un scanner dans le cloud qui dissèque massivement l'architecture statique superficielle. En quelques secondes, sa puissance de calcul révèle les clés en dur ou les serveurs backend communiqués par les développeurs. Il me dirige directement là où la surface d'attaque est la plus "fragile".
 
 ## Scan de L'APk:
@@ -73,21 +73,20 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 *  La note de sécurité globale de l'application (**Security Rating : 7.4 / Average**) ainsi qu'un résumé visuel des failles (graphiques à barres).
 *  Elle résume instantanément le niveau de risque. On y voit immédiatement que l'application pèche par des défauts liés au **stockage d'informations sensibles (Shared Preferences et Logs)** et des **Activités Exportées** dans le Manifest (`resources/AndroidManifest.xml`). L'outil propose même des indicateurs montrant comment le score s'améliorerait (passant à 8.8 - GOOD) si certaines failles moyennes étaient corrigées.
 
-*  Ce qui est fournit en gros :
-<p align="center"> <img src="images/17.png" width="800"> </p>
+*  Ce qui est fournit  :
+<p align="center"> <img src="images/17.png" width="400"> </p>
 
 - **Résultats mis en relief (Extrait) :**
-- 
 ## Assets:
 <p align="center"> <img src="images/7.png" width="800"> </p>
-<p align="center"> <img src="images/68.png" width="800"> </p>
+<p align="center"> <img src="images/8.png" width="800"> </p>
 
 ## Manifest scanner :
 <p align="center"> <img src="images/10.png" width="800"> </p>
 
 ## Vulnerabilites:
-<p align="center"> <img src="images/17.png" width="800"> </p>
-<p align="center"> <img src="images/18.png" width="800"> </p>
+<p align="center"> <img src="images/18.png" width="600"> </p>
+<p align="center"> <img src="images/19.png" width="600"> </p>
 
 ### Strings,ApkId ... et dautres sauvegarder dans 02-bivigil 
 
