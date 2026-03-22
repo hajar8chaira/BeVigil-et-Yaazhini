@@ -99,6 +99,7 @@ L'association de ces deux outils m'a permis de réaliser un audit croisé avec d
 | Algorithmes Obsoletes (MD5) | Basse (Low) | 4.3 | Cassable très rapidement par "Rainbow Tables" |
 
 ## 3. Analyse avec Yaazhini
+<p align="center"> <img src="images/20.png" width="800"> </p>
  Tandis que BeVigil scrute la façade externe, Yaazhini (outil SAST) détoure les entrailles du code. Cette analyse approfondie implique de déconstruire le binaire et de l'inspecter comme le ferait l'équipe de développement initiale.
 
 - **Actions techniques :**
