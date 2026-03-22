@@ -3,7 +3,7 @@
 ## Périmètre et traçabilité
 - [x] Scope clairement défini et respecté
 - [x] Informations de traçabilité complètes
-- [x] Hash de l'APK documenté (si applicable)
+- [x] Hash de l'APK documenté 
 
 ## Collecte et analyse
 - [x] Exports BeVigil sauvegardés
