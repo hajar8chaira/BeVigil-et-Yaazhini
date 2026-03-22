@@ -40,7 +40,8 @@ Ce projet vise à évaluer la posture de sécurité d'une application Android p�
   mkdir 01-bevigil, 02-yaazhini, 03-triage, 04-report
   "Log init..." | Out-File -FilePath "commands.log"
   ```
-- **Observations :** L'environnement est prêt et documenté.
+- **Observations :** L'environnement est prêt et documenté. Voici le résultat de l'arborescence :
+  ![Création de l'arborescence](assets/dir_folders.png)
 - **Résultats :** Création de `analyse_info.txt` recensant hôte, analyste et outils.
 - **Apprentissages :** Assurer un suivi granulaire des commandes via des scripts permet d'élaborer un rapport robuste a posteriori.
 
@@ -51,7 +52,8 @@ Ce projet vise à évaluer la posture de sécurité d'une application Android p�
   ```powershell
   $hash = Get-FileHash -Path "00-scope\InsecureBankv2.apk" -Algorithm SHA256
   ```
-- **Observations :** ![Screenshot_Task2_Hash](assets/task2_hash.png)
+- **Observations :** Le calcul de l'empreinte permet d'obtenir le hash exact du binaire :
+  ![Calcul du Hash SHA-256](assets/hash_sha256.png)
 - **Résultats :** Hash SHA-256 consigné : `B18AF2A0E44D763...`
 - **Apprentissages :** Le hachage garantit que les observations futures sont liées à cette version exacte du fichier de l'entreprise.
 
@@ -62,7 +64,15 @@ Ce projet vise à évaluer la posture de sécurité d'une application Android p�
   ```powershell
   Move-Item -Path "Downloads\*.csv" -Destination "01-bevigil\"
   ```
-- **Observations :** ![Screenshot_Task3_Bevigil](assets/task3_bevigil.png)
+- **Observations :** Processus de soumission de l'APK sur la plateforme CloudSEK et génération du rapport :
+  ![Upload BeVigil](assets/bevigil_upload.png)
+  ![Analyse BeVigil Terminée](assets/bevigil_done.png)
+
+#### 🔎 Qu'est-ce que le scan BeVigil (CloudSEK) ?
+BeVigil est le premier moteur de recherche de sécurité au monde dédié aux applications mobiles. Lors de la soumission de notre APK, BeVigil a effectué une **analyse statique automatisée dans le Cloud (SAST)**.
+* **Fonctionnement :** L'outil désassemble le code de l'APK, dissèque le Manifest et parcourt les chaînes de caractères pour y trouver des failles connues.
+* **Ce qu'il cible :** Il extrait toutes les métadonnées, recherche des **secrets oubliés** en dur (clés d'API, mots de passe), liste l'exaustivité des **Endpoints réseau et URLs**, et repère les **défauts de configuration** manifestes à l'externe.
+* **Avantage :** Il permet d'obtenir la cartographie exacte de la **surface d'attaque OSINT et statique** en quelques instants, dirigeant ainsi nos efforts vers les points faibles de l'application.
 - **Résultats :** Rapport de vulnérabilités, d'assets réseau et d'intégrité exporté.
 - **Apprentissages :** Extraire les data vers CSV favorise un *Triage* (tri par criticité) plus facile par de puissants parsers de données.
 
@@ -80,7 +90,8 @@ Ce projet vise à évaluer la posture de sécurité d'une application Android p�
   ```powershell
   & "yaazhini.exe" -apk "00-scope\InsecureBankv2.apk" -output "02-yaazhini"
   ```
-- **Observations :** L'outil a dézippé l'APK, extrait le `classes.dex`, puis décompilé au format Smali et pseudo-Java. ![Screenshot_Task5_Yaazhini](assets/task5_yaazhini.png)
+- **Observations :** L'outil a dézippé l'APK, extrait le `classes.dex`, puis décompilé au format Smali et pseudo-Java. Interface de Yaazhini :
+  ![Interface Yaazhini](assets/yaazhini_ui.png)
 - **Résultats :** Scan SAST approfondi des dépendances et de la structure du Manifest.
 - **Apprentissages :** Différentiel majeur avec BeVigil : Yaazhini rentre dans le cœur du code pour pointer *la ligne exacte* de la faille.
 
